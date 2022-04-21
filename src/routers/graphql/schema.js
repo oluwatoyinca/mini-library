@@ -130,6 +130,25 @@ const RootMutationType = new GraphQLObjectType({
                     throw e
                 }
             }
+        },
+        addBook: {
+            type: BookType,
+            description: "Add a book",
+            args: {
+                name: {type: GraphQLNonNull(GraphQLString)},
+                isbn: {type: GraphQLNonNull(GraphQLInt)},
+                author: {type: GraphQLNonNull(GraphQLString)},
+            },
+            resolve: async (parent, args) => {
+                try{
+                    const  book = new Book(args)
+                    await book.save()
+                    return book
+                }
+                catch (e){
+                    throw e
+                }
+            }
         }
     })
 })
