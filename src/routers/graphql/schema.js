@@ -83,8 +83,8 @@ const RootQueryType = new GraphQLObjectType({
             description: "List Of Books",
             resolve: async () => {
                 try {
-                    const authors = await Book.find({})
-                    return(authors)
+                    const books = await Book.find({})
+                    return(books)
                 } catch(e) {
                     throw e
                 }
@@ -94,12 +94,19 @@ const RootQueryType = new GraphQLObjectType({
             type: BookType,
             description: "A Single Book",
             args: {
-                id: {type: GraphQLString}
+                id: {type: GraphQLString},
+                name: {type: GraphQLString}
             },
             resolve: async (parent, args) => {
                 try {
-                    const book = await Book.findById(args.id)
-                    return(book)
+                    if(args.id){
+                        const book = await Book.findById(args.id)
+                        return(book)
+                    }
+                    else if (args.name){
+                        const book = await Book.findOne({name: args.name})
+                        return(book)
+                    }
                 } catch(e) {
                     throw e
                 }
