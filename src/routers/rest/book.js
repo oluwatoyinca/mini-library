@@ -2,6 +2,7 @@ const express = require('express')
 const router = new express.Router()
 const Book = require('../../models/book')
 
+//create new book
 router.post('/books', async (req, res) => {
     const book = new Book(req.body)
 
@@ -13,6 +14,7 @@ router.post('/books', async (req, res) => {
     }
 })
 
+//query all books
 router.get('/books', async (req, res) => {
     try {
         const books = await Book.find({})

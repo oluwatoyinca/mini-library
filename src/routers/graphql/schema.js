@@ -2,6 +2,7 @@ const {GraphQLSchema, GraphQLObjectType, GraphQLList, GraphQLNonNull, GraphQLStr
 const Author = require('../../models/author')
 const Book = require('../../models/book')
 
+//type that represents author model
 const AuthorType = new GraphQLObjectType({
     name: "Author",
     description: "This represents a author",
@@ -25,6 +26,7 @@ const AuthorType = new GraphQLObjectType({
     })
 })
 
+//type that represents book model
 const BookType = new GraphQLObjectType({
     name: "Book",
     description: "This represents a book",
@@ -47,10 +49,12 @@ const BookType = new GraphQLObjectType({
     })
 })
 
+//query definition for authors and books
 const RootQueryType = new GraphQLObjectType({
     name: "Query",
     description: "Root Queries",
     fields: () => ({
+        //all authors
         authors: {
             type: new GraphQLList(AuthorType),
             description: "List Of Authors",
@@ -63,6 +67,7 @@ const RootQueryType = new GraphQLObjectType({
                 }
             }
         },
+        //one author by id
         author: {
             type: AuthorType,
             description: "A Single Author",
@@ -78,6 +83,7 @@ const RootQueryType = new GraphQLObjectType({
                 }
             }
         },
+        //all books
         books: {
             type: new GraphQLList(BookType),
             description: "List Of Books",
@@ -90,6 +96,7 @@ const RootQueryType = new GraphQLObjectType({
                 }
             }
         },
+        //one book by id or name
         book: {
             type: BookType,
             description: "A Single Book",
@@ -115,10 +122,12 @@ const RootQueryType = new GraphQLObjectType({
     })
 })
 
+//mutation definition for authors and books
 const RootMutationType = new GraphQLObjectType({
     name: "Mutation",
     description: "Root Mutations",
     fields: () => ({
+        //add a new author
         addAuthor: {
             type: AuthorType,
             description: "Add an book",
@@ -138,6 +147,7 @@ const RootMutationType = new GraphQLObjectType({
                 }
             }
         },
+        //add a new book
         addBook: {
             type: BookType,
             description: "Add a book",
@@ -160,6 +170,7 @@ const RootMutationType = new GraphQLObjectType({
     })
 })
 
+//schema creation
 const schema = new GraphQLSchema({
     query: RootQueryType,
     mutation: RootMutationType

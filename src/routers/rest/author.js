@@ -2,6 +2,7 @@ const express = require('express')
 const router = new express.Router()
 const Author = require('../../models/author')
 
+//create new author
 router.post('/authors', async (req, res) => {
     const author = new Author(req.body)
 
@@ -13,6 +14,7 @@ router.post('/authors', async (req, res) => {
     }
 })
 
+//query all authors
 router.get('/authors', async (req, res) => {
     try {
         const authors = await Author.find({})

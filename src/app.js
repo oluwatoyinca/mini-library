@@ -9,11 +9,13 @@ require('./db/mongoose')
 
 app.use(express.json())
 app.use(cors());
+//graphQL router
 app.use('/graphql', graphqlHTTP({
     schema,
     graphiql: true
 }))
 
+//restAPI router
 // app.use(authorRouter.router)
 // app.use(bookRouter.router)
 
