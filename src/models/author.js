@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const validator = require('validator')
+const Book = require('./book')
 
 const authorSchema = mongoose.Schema({
     name: {
@@ -32,6 +33,14 @@ authorSchema.virtual('books', {
     ref: 'Book',
     localField: '_id',
     foreignField: 'author'
+})
+
+// here we deleting books of a author before their author document is removed
+authorSchema.pre('remove', async function (next) {
+    const author = this
+    
+    await Book.deleteMany({author: author._id})
+    next()
 })
 
 const Author = mongoose.model('Author', authorSchema)
