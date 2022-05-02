@@ -147,6 +147,34 @@ const RootMutationType = new GraphQLObjectType({
                 }
             }
         },
+        //update a single author
+        updateAuthor: {
+            type: AuthorType,
+            description: "Update an author",
+            args: {
+                id: {type: GraphQLNonNull(GraphQLString)},
+                name: {type: GraphQLString},
+                email: {type: GraphQLString},
+                age: {type: GraphQLInt}
+            },
+            resolve: async (parent, args) => {
+                try{
+                    const author = await Author.findById(args.id)
+
+                    const updates = Object.keys(args)
+
+                    updates.forEach((update) => {
+                        if(!(update == 'id'))
+                        author[update] = args[update]
+                    })
+                    await author.save()
+                    return author
+                }
+                catch(e){
+                    throw e
+                }
+            }
+        },
         //add a new book
         addBook: {
             type: BookType,
@@ -154,7 +182,7 @@ const RootMutationType = new GraphQLObjectType({
             args: {
                 name: {type: GraphQLNonNull(GraphQLString)},
                 isbn: {type: GraphQLNonNull(GraphQLInt)},
-                author: {type: GraphQLNonNull(GraphQLString)},
+                author: {type: GraphQLNonNull(GraphQLString)}
             },
             resolve: async (parent, args) => {
                 try{
@@ -163,6 +191,34 @@ const RootMutationType = new GraphQLObjectType({
                     return book
                 }
                 catch (e){
+                    throw e
+                }
+            }
+        },
+        //update a single book
+        updateBook: {
+            type: BookType,
+            description: "Update a book",
+            args: {
+                id: {type: GraphQLNonNull(GraphQLString)},
+                name: {type: GraphQLString},
+                isbn: {type: GraphQLInt},
+                author: {type: GraphQLString}
+            },
+            resolve: async (parent, args) => {
+                try{
+                    const book = await Book.findById(args.id)
+
+                    const updates = Object.keys(args)
+
+                    updates.forEach((update) => {
+                        if(!(update == 'id'))
+                        book[update] = args[update]
+                    })
+                    await book.save()
+                    return book
+                }
+                catch(e){
                     throw e
                 }
             }
