@@ -24,6 +24,17 @@ router.get('/books', async (req, res) => {
     }
 })
 
+//query a book
+router.get('/books/:id', async (req, res) => {
+    try {
+        const book = await Book.findById(req.params.id)
+        res.send(book)
+    } catch(e) {
+        res.status(500).send(e)
+    }
+})
+
+//update a book
 router.patch('/books/:id', async (req, res) => {
     const updates = Object.keys(req.body)
     const allowedUpdates = ['name', 'isbn', 'author']
