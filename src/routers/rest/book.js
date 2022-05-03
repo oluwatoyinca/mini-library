@@ -65,4 +65,15 @@ router.patch('/books/:id', async (req, res) => {
     }
 })
 
+//delete a book
+router.delete('/books/:id', async (req, res) => {
+    try {
+        const book = await Book.findById(req.params.id)
+        await book.remove()
+        res.send(book)
+    } catch(e) {
+        res.status(500).send(e)
+    }
+})
+
 module.exports = {router}

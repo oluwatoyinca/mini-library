@@ -65,4 +65,15 @@ router.patch('/authors/:id', async (req, res) => {
     }
 })
 
+//delete an author
+router.delete('/authors/:id', async (req, res) => {
+    try {
+        const author = await Author.findById(req.params.id)
+        await author.remove()
+        res.send(author)
+    } catch(e) {
+        res.status(500).send(e)
+    }
+})
+
 module.exports = {router}
