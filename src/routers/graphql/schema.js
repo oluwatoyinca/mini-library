@@ -241,6 +241,25 @@ const RootMutationType = new GraphQLObjectType({
                     throw e
                 }
             }
+        },
+        //delete a single book
+        deleteBook: {
+            type: BookType,
+            description: "Delete a book",
+            args: {
+                id: {type: GraphQLNonNull(GraphQLString)}
+            },
+            resolve: async (parent, args) => {
+                try{
+                    const book = await Book.findById(args.id)
+
+                    await book.remove()
+                    return book
+                }
+                catch(e){
+                    throw e
+                }
+            }
         }
     })
 })
